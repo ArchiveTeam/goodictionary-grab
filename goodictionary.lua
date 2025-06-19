@@ -1,5 +1,6 @@
 local urlparse = require("socket.url")
 local http = require("socket.http")
+local cjson = require("cjson")
 
 local item_dir = os.getenv("item_dir")
 local warc_file_base = os.getenv("warc_file_base")

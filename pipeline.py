@@ -77,7 +77,7 @@ if not WGET_AT:
 #
 # Update this each time you make a non-cosmetic change.
 # It will be added to the WARC files and reported to the tracker.
-VERSION = '20250619.02'
+VERSION = '20250619.03'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0'
 TRACKER_ID = 'goodictionary'
 TRACKER_HOST = 'legacy-api.arpa.li'
@@ -295,7 +295,6 @@ class WgetArgs(object):
         wget_args.extend([
             '--warc-zstd-dict', ItemInterpolation('%(item_dir)s/zstdict'),
         ])
-        print(wget_args)
 
         if '--concurrent' in sys.argv:
             concurrency = int(sys.argv[sys.argv.index('--concurrent')+1])
