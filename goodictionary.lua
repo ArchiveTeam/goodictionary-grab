@@ -129,6 +129,8 @@ percent_encode_url = function(url)
 end
 
 allowed = function(url, parenturl)
+  url = string.match(url, "^([^#]*)")
+
   local noscheme = string.match(url, "^https?://(.*)$")
   local path = string.match(url, "^https?://[^/]+(/.*)$")
 
@@ -211,8 +213,17 @@ wget.callbacks.write_to_warc = function(url, http_stat)
     error("No item name found.")
   end
   is_initial_url = false
+  if http_stat["statcode"] == 301 then
+    local newloc = urlparse.absolute(url["url"], http_stat["newloc"])
+    print(newloc)
+    if string.match(newloc, "^https?://[^/]+/isspam") then
+      retry_url = true
+      return false
+    end
+  end
   if http_stat["statcode"] ~= 200
-    and http_stat["statcode"] ~= 404 then
+    and http_stat["statcode"] ~= 404
+    and http_stat["statcode"] ~= 301 then
     retry_url = true
     return false
   end
