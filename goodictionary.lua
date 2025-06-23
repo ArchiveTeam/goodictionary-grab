@@ -213,7 +213,7 @@ wget.callbacks.write_to_warc = function(url, http_stat)
     error("No item name found.")
   end
   is_initial_url = false
-  if http_stat["statcode"] == 301 then
+  if http_stat["statcode"] == 301 or http_stat["statcode"] == 302 then
     local newloc = urlparse.absolute(url["url"], http_stat["newloc"])
     print(newloc)
     if string.match(newloc, "^https?://[^/]+/isspam") then
@@ -223,7 +223,8 @@ wget.callbacks.write_to_warc = function(url, http_stat)
   end
   if http_stat["statcode"] ~= 200
     and http_stat["statcode"] ~= 404
-    and http_stat["statcode"] ~= 301 then
+    and http_stat["statcode"] ~= 301
+    and http_stat["statcode"] ~= 302 then
     retry_url = true
     return false
   end
